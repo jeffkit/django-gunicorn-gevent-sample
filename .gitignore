@@ -1,0 +1,7 @@
+db.sqlite3
+*.pyc
+build
+dist
+.DS_Store
+.ropeproject
+
