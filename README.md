@@ -11,7 +11,7 @@ A：在Django的应用里，需要请求外部网络API或较多IO操作的时�
 
 demo做的事情很简单，读取数据库的书本，挑其中一本书的名字，到百度搜索，代码如下：
 
-`
+```
 def random_search(request):
     books = [book for book in Book.objects.all()]
     random.shuffle(books)
@@ -19,30 +19,30 @@ def random_search(request):
     rsp = requests.get(url, headers={'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'})
     print rsp.status_code
     return HttpResponse(rsp.text)
-`
+```
 
 ## 运行并测试
 
 ### 安装Demo
 
-`
+```
 $git clone https://github.com/jeffkit/django-gunicorn-gevent-sample.git
 $cd django-gunicorn-gevent-sample
 $sudo pip install -r requirements.txt
 $python manage.py migrate
 
-`
+```
 
 ### 使用Gunicorn运行Demo
 
-`
+```
 $gunicorn -w 1 -k gevent usample.wsgi:application
 [2016-06-24 12:28:05 +0800] [82169] [INFO] Starting gunicorn 19.6.0
 [2016-06-24 12:28:05 +0800] [82169] [INFO] Listening at: http://127.0.0.1:8000 (82169)
 [2016-06-24 12:28:05 +0800] [82169] [INFO] Using worker: gevent
 [2016-06-24 12:28:05 +0800] [82172] [INFO] Booting worker with pid: 82172
 
-`
+```
 参数说明：
 
 - w，启动worker数量，即工作进程数
@@ -52,7 +52,7 @@ $gunicorn -w 1 -k gevent usample.wsgi:application
 
 使用ab来压测一下看结果, 模拟20个并发，一共发送100次请求：
 
-`
+```
 ab -n 100 -c 20 http://127.0.0.1:8000/
 This is ApacheBench, Version 2.3 <$Revision: 1706008 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
@@ -98,23 +98,23 @@ Percentage of the requests served within a certain time (ms)
   99%  19206
  100%  19206 (longest request)
 
-`
+```
 
 总完成时间在21.422秒，视乎服务器的网络状况，如果网络较理想，可能几秒内就可以完成。
 
 如果把运行引擎改回同步模式，再做一下对比：
 
-`
+```
 $gunicorn -w 1 -k sync usample.wsgi:application
 [2016-06-24 12:34:54 +0800] [82205] [INFO] Starting gunicorn 19.6.0
 [2016-06-24 12:34:54 +0800] [82205] [INFO] Listening at: http://127.0.0.1:8000 (82205)
 [2016-06-24 12:34:54 +0800] [82205] [INFO] Using worker: sync
 [2016-06-24 12:34:54 +0800] [82208] [INFO] Booting worker with pid: 82208
-`
+```
 
 使用同样的命令来做一次压测：
 
-`
+```
 ab -n 100 -c 20 http://127.0.0.1:8000/
 This is ApacheBench, Version 2.3 <$Revision: 1706008 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
@@ -159,7 +159,7 @@ Percentage of the requests served within a certain time (ms)
   98%  21844
   99%  22015
  100%  22015 (longest request)
-`
+```
 
 总响应时间101秒，差距巨大。
 
