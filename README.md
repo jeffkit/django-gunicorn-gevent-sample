@@ -53,7 +53,7 @@ $gunicorn -w 1 -k gevent usample.wsgi:application
 使用ab来压测一下看结果, 模拟20个并发，一共发送100次请求：
 
 ```
-ab -n 100 -c 20 http://127.0.0.1:8000/
+$ab -n 100 -c 20 http://127.0.0.1:8000/
 This is ApacheBench, Version 2.3 <$Revision: 1706008 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
 Licensed to The Apache Software Foundation, http://www.apache.org/
@@ -115,7 +115,7 @@ $gunicorn -w 1 -k sync usample.wsgi:application
 使用同样的命令来做一次压测：
 
 ```
-ab -n 100 -c 20 http://127.0.0.1:8000/
+$ab -n 100 -c 20 http://127.0.0.1:8000/
 This is ApacheBench, Version 2.3 <$Revision: 1706008 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
 Licensed to The Apache Software Foundation, http://www.apache.org/
